@@ -4,7 +4,7 @@ program Leota;
 uses crt;
 
 const
-	NUM_AUTOS = 2;
+	NUM_AUTOS = 3;
 	NUM_VENDEDORES = 2;
 	
 type
@@ -18,7 +18,6 @@ type
 		mes: string;
 		rangoFecha: string;
 		rangoFecha2: string;
-		
 	end;
 	tVendedores = array[tRangoVendedores] of tRVendedores;
 var
@@ -63,26 +62,44 @@ begin
 	writeln;
 	for i:= 1 to NUM_VENDEDORES do
 		begin
+			writeln('--------------------------------------------');
 			writeln('Mes: ',vendedores[i].mes);
 			writeln(vendedores[i].rangoFecha,' Al ',vendedores[i].rangoFecha2);
 			writeln('Vendedor: ',vendedores[i].nombre);
 			for j:= 1 to NUM_AUTOS do
 				begin
-					writeln('-------------');
-					write('Modelo ',j);
+					writeln('Modelo ',j);
+					writeln('Total Vendidos: ',vendedores[i].autosVendidos[j]);
 					writeln;
-					write('Total Vendidos: ',vendedores[i].autosVendidos[j]);
-					writeln;
-					writeln('-------------');
 				end;
+			writeln('--------------------------------------------');
+			writeln;
 		end;
 
 end;
 
+procedure reporteDos(var vendedores:tVendedores);
+var i,j:integer; acumulador: array [1..NUM_AUTOS] of integer;
+begin
+	writeln('Total vendido por modelo: ');
+	for i:= 1 to NUM_AUTOS do
+		acumulador[i]:=0;
+	
+	for i:= 1 to NUM_VENDEDORES do
+		for j:= 1 to NUM_AUTOS do
+			acumulador[j]:=acumulador[j]+vendedores[i].autosVendidos[j];
+			
+	for j:= 1 to NUM_AUTOS do
+		writeln('Modelo ',j,' : ',acumulador[j]);
+		
+		
+end;
 	
 
 BEGIN
 	insertarDatos(vendedores);
 	reporteUno(vendedores);
+	reporteDos(vendedores);
+	readkey;
 END.
 
