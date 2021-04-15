@@ -4,9 +4,10 @@ program Leota;
 uses crt;
 
 const
-	NUM_AUTOS = 2;
-	NUM_VENDEDORES = 2;
+	NUM_AUTOS = 2;//Numero de modelos de autos
+	NUM_VENDEDORES = 2;//Numero de Vendedores
 	
+//Defino la estructura
 type
 	tRangoVendedores = 1..NUM_VENDEDORES;
 	tRangoAutos = 1..NUM_AUTOS;
@@ -21,7 +22,7 @@ type
 	end;
 	tVendedores = array[tRangoVendedores] of tRVendedores;
 var
-	vendedores: tVendedores;
+	vendedores: tVendedores;//Se crea la estructura
 	
 procedure insertarDatos(var vendedores:tVendedores);
 var i,j,acumulador: integer;
@@ -61,7 +62,6 @@ end;
 procedure reporteUno(var vendedores:tVendedores);
 var i,j:integer;
 begin
-	clrscr;
 	writeln('----------REPORTE UNO----------');
 	writeln;
 	for i:= 1 to NUM_VENDEDORES do
@@ -123,7 +123,7 @@ begin
 	t:= vendedores[1].acumuladorAutos; //Suponiendo que el primer vendedor obtuvo las mayores ventas
 	for i:= 2 to NUM_VENDEDORES do
 		begin
-			if(vendedores[i].acumuladorAutos < t) then
+			if(vendedores[i].acumuladorAutos > t) then
 				t:= vendedores[i].acumuladorAutos;
 		end;
 	for j:= 1 to NUM_VENDEDORES do
