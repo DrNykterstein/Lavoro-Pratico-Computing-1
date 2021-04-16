@@ -4,13 +4,13 @@ program Leota;
 uses crt;
 
 const
-	NUM_AUTOS = 2;//Numero de modelos de autos
-	NUM_VENDEDORES = 2;//Numero de Vendedores
+	NUM_AUTOS = 3;//Numero de modelos de autos
+	NUM_VENDEDORES = 4;//Numero de Vendedores
 	
 //Defino la estructura
 type
 	tRangoVendedores = 1..NUM_VENDEDORES;
-	tRangoAutos = 1..NUM_AUTOS;
+	tRangoAutos = 1..2000;//Suponiendo que vendan 2000 como maximo
 	tAutosVendidos = array[tRangoVendedores] of tRangoAutos;
 	tRVendedores = record
 		nombre: string;
@@ -62,11 +62,11 @@ end;
 procedure reporteUno(var vendedores:tVendedores);
 var i,j:integer;
 begin
-	writeln('----------REPORTE UNO----------');
-	writeln;
+	clrscr;
+	writeln('----------REPORTE UNO--------------------');
 	for i:= 1 to NUM_VENDEDORES do
 		begin
-			writeln('--------------------------------------------');
+			writeln('-----------Vendedor ',i,'---------------------');
 			writeln('Mes: ',vendedores[i].mes);
 			writeln(vendedores[i].rangoFecha,' Al ',vendedores[i].rangoFecha2);
 			writeln('Vendedor: ',vendedores[i].nombre);
@@ -77,7 +77,6 @@ begin
 					writeln;
 				end;
 			writeln('--------------------------------------------');
-			writeln;
 		end;
 
 end;
@@ -85,6 +84,7 @@ end;
 procedure reporteDos(var vendedores:tVendedores);
 var i,j: integer;
 begin
+	clrscr;
 	writeln('----------REPORTE DOS----------');
 	writeln('Vendedores');
 	writeln;
@@ -118,17 +118,18 @@ begin
 end;
 
 procedure premioVendedor(var vendedores:tVendedores);
-var i,j,t:integer;
+var i,t:integer;
 begin
+	clrscr;
 	t:= vendedores[1].acumuladorAutos; //Suponiendo que el primer vendedor obtuvo las mayores ventas
-	for i:= 2 to NUM_VENDEDORES do
+	for i:= 1 to NUM_VENDEDORES do
 		begin
 			if(vendedores[i].acumuladorAutos > t) then
 				t:= vendedores[i].acumuladorAutos;
 		end;
-	for j:= 1 to NUM_VENDEDORES do
-		if(t=vendedores[j].acumuladorAutos)then
-			write(vendedores[j].nombre,' Es el ganador por mas autos vendidos');
+	for i:= 1 to NUM_VENDEDORES do
+		if(t=vendedores[i].acumuladorAutos)then
+			write(vendedores[i].nombre,' Es el ganador por mas autos vendidos');
 		writeln;
 end;
 
@@ -137,8 +138,12 @@ BEGIN
 	textcolor(10);
 	insertarDatos(vendedores);
 	reporteUno(vendedores);
+	writeln('Presione enter para ver el reporte 2...');
+	readln;
 	reporteDos(vendedores);
 	totalVendidos(vendedores);
+	writeln('Presione enter para ver el vendedor ganador...');
+	readln;
 	premioVendedor(vendedores);
 	readkey;
 END.
