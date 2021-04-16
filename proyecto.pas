@@ -4,8 +4,8 @@ program Leota;
 uses crt;
 
 const
-	NUM_AUTOS = 3;//Numero de modelos de autos
-	NUM_VENDEDORES = 4;//Numero de Vendedores
+	NUM_AUTOS = 2;//Numero de modelos de autos
+	NUM_VENDEDORES = 2;//Numero de Vendedores
 	
 //Defino la estructura
 type
@@ -82,7 +82,7 @@ begin
 end;
 
 procedure reporteDos(var vendedores:tVendedores);
-var i,j: integer;
+var i,j,acumulador: integer;
 begin
 	clrscr;
 	writeln('----------REPORTE DOS----------');
@@ -90,13 +90,16 @@ begin
 	writeln;
 	for i:= 1 to NUM_VENDEDORES do
 		begin
+			acumulador:=0;
 			writeln('--------------------------------------------');
 			writeln(vendedores[i].nombre);
 			for j:= 1 to NUM_AUTOS do
 				begin
 					write('Del Modelo ',j,' vendio ',vendedores[i].autosVendidos[j]);
 					writeln;
+					acumulador:=acumulador+vendedores[i].autosVendidos[j];
 				end;
+			writeln('Vendio en total ',acumulador);
 			writeln('--------------------------------------------');
 		end;
 end;
@@ -118,7 +121,7 @@ begin
 end;
 
 procedure premioVendedor(var vendedores:tVendedores);
-var i,t:integer;
+var i,t,j:integer;
 begin
 	clrscr;
 	t:= vendedores[1].acumuladorAutos; //Suponiendo que el primer vendedor obtuvo las mayores ventas
@@ -127,9 +130,9 @@ begin
 			if(vendedores[i].acumuladorAutos > t) then
 				t:= vendedores[i].acumuladorAutos;
 		end;
-	for i:= 1 to NUM_VENDEDORES do
-		if(t=vendedores[i].acumuladorAutos)then
-			write(vendedores[i].nombre,' Es el ganador por mas autos vendidos');
+	for j:= 1 to NUM_VENDEDORES do
+		if(t=vendedores[j].acumuladorAutos)then
+			write(vendedores[j].nombre,' Es el ganador por mas autos vendidos');
 		writeln;
 end;
 
