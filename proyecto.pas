@@ -1,4 +1,10 @@
+{
+*Este programa es software libre; Puedes redistribuirlo y modificarlo. 
+* Bajo los términos de La Licencia Pública General de GNU 
+* Esperando que sirva como referencia para proximos trabajos practicos y 
+* ayude asi sea un poco a los estudiantes
 
+* }
 program Leota;
 
 uses crt;
@@ -25,7 +31,7 @@ var
 	vendedores: tVendedores;//Se crea la estructura
 	
 procedure insertarDatos(var vendedores:tVendedores);
-var i,j,acumulador: integer;
+var i,j,acumulador,cod: integer; getString:string[25]; flag: boolean;
 begin
 	acumulador:=0;
 	for i:= 1 to NUM_VENDEDORES do
@@ -33,8 +39,12 @@ begin
 			with vendedores[i] do
 				begin
 					writeln('--- Introduzca los datos del vendedor ',i,' ---');
+					repeat
 					write('Nombre: ');
 					readln(nombre);
+					if(not((nombre[i] in ['A'..'Z']) or (nombre[i] in ['a'..'z']))) then
+						writeln('Error, el nombre no puede tener caracteres numericos');
+					until(((nombre[i] in ['A'..'Z']) or (nombre[i] in ['a'..'z'])));
 					writeln;
 					write('Introduzca el mes: ');
 					readln(mes);
@@ -49,10 +59,23 @@ begin
 					writeln;
 					for j:= 1 to NUM_AUTOS do
 						begin
+							repeat
+							//Robustez
+							flag:= false;
 							write('Ventas del Modelo ',j,' : ');
-							readln(autosVendidos[j]);
-							writeln;
-							acumulador:=acumulador+autosVendidos[j];
+							readln(getString);//Obetengo el string
+							//Convierto el string en un entero y lo paso a la autos vendidos
+							val(getString,autosVendidos[j],cod);
+							//Si el codigo es 0, la conversion fue correcta
+							if(cod = 0) then
+							begin
+								writeln;
+								acumulador:=acumulador+autosVendidos[j];
+								flag:=true;//Lo declaro true para salir del repeat
+							end
+							else
+								writeln('Por favor Introduzca un numero ');
+							until(flag);
 						end;
 					acumuladorAutos:=acumulador;
 				end;
@@ -131,9 +154,11 @@ begin
 				t:= vendedores[i].acumuladorAutos;
 		end;
 	for j:= 1 to NUM_VENDEDORES do
-		if(t=vendedores[j].acumuladorAutos)then
-			write(vendedores[j].nombre,' Es el ganador por mas autos vendidos');
-		writeln;
+		begin
+			if(t=vendedores[j].acumuladorAutos)then
+				writeln(vendedores[j].nombre,' Es el ganador por mas autos vendidos');
+			writeln;
+		end;
 end;
 
 
